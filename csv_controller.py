@@ -15,9 +15,6 @@ class CsvController():
         df.to_csv("ranking.csv", index=False)
 
     def read_csv(self):
-        if len(self.restaurant_list) != 0:
-            self.restaurant_list =[]
-
         with open('ranking.csv') as f:
             reader = csv.reader(f)
             l = [row for row in reader]
@@ -26,6 +23,17 @@ class CsvController():
             r = restaurant.Restaurant(l[i][0], l[i][1])
             self.restaurant_list.append(r)
 
-    def add_csv(self, restaurant, count):
-        with open('ranking.csv', 'a') as f:
-            print(restaurant, count, file=f)
+    def add_csv(self, restaurant, count, restaurant_list):
+        for i in range(1, len(restaurant_list)):
+            if restaurant_list[i].get_restaurant() == restaurant:
+                restaurant_list[i].set_count(int(restaurant_list[i].get_count())+1)
+                df = pd.read_csv('ranking.csv')
+                df_new = df.drop(i-1)
+                df_new.to_csv("ranking.csv", index=False)
+                w = pd.DataFrame([[restaurant, restaurant_list[i].get_count()]])
+                w.to_csv("ranking.csv", index=False, mode='a', header=False)
+                break
+
+        else:
+            w = pd.DataFrame([[restaurant, count]])
+            w.to_csv("ranking.csv", index=False, mode='a', header=False)

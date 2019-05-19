@@ -1,28 +1,42 @@
 import csv_controller
+import roboter_question
 
 class Roboter():
     def say_roboter_first(self):
         csv = csv_controller.CsvController()
-        print("Hello! I'm Roboter. What is your name?")
+        question = roboter_question.QuestionRoboter()
+
+        question.question_name()
+
         name = input('name:')
-        print('{}. Which restaurant do you like?'.format(name))
+
+        question.queston_restaurant(name)
+
         restaurant = input('restaurant-name:')
         count = 1
+
         csv.write_csv(restaurant, count)
+
         print('{}. Thank you.'.format(name))
         print('Have a good day! See you.')
 
-    def say_roboter_second(self):
+    def say_roboter_second_and_subsequent_times(self):
         csv = csv_controller.CsvController()
+        question = roboter_question.QuestionRoboter()
         csv.read_csv()
-        print("Hello! I'm Roboter. What is your name?")
+
+        question.question_name()
+
         name = input('name:')
-        print('My favorite restaurant is {}'.format(csv.restaurant_list[1].get_restaurant()))
-        print('Do you like this restaurant? [yes/no]')
-        answer = input()
-        print('{}. Which restaurant do you like?'.format(name))
+
+        question.proposal_restaurant(csv.restaurant_list)
+
+        question.queston_restaurant(name)
+
         restaurant = input('restaurant-name:')
         count = 1
-        csv.add_csv(restaurant, count)
+
+        csv.add_csv(restaurant, count, csv.restaurant_list)
+
         print('{}. Thank you.'.format(name))
         print('Have a good day! See you.')

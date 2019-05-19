@@ -1,8 +1,14 @@
+import os
+
 import roboter
 
 def main():
     robot = roboter.Roboter()
-    robot.say_roboter_first()
-    robot.say_roboter_second()
+    if os.path.exists("ranking.csv") == False:
+        robot.say_roboter_first()
+
+    else:
+        robot.say_roboter_second_and_subsequent_times()
+
 
 main()

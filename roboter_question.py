@@ -6,9 +6,18 @@ class QuestionRoboter():
         print('{}. Which restaurant do you like?'.format(name))
 
     def proposal_restaurant(self, restaurant_list):
+        restaurant_ranking_list = []
         for i in range(1,len(restaurant_list)):
-            print('My favorite restaurant is {}'.format(restaurant_list[i].get_restaurant()))
+            key = restaurant_list[i].get_restaurant()
+            value = restaurant_list[i].get_count()
+            ls = [key, value]
+            restaurant_ranking_list.append(ls)
+
+        restaurant_ranking_list.sort(key=lambda x: x[1], reverse=True)
+
+        for i in range(len(restaurant_ranking_list)):
+            print('My favorite restaurant is {}'.format(restaurant_ranking_list[i][0]))
             print('Do you like this restaurant? [yes/no]')
             answer = input()
-            if answer == 'yes':
+            if answer.lower() == 'yes' or answer.lower() == 'y':
                 break
